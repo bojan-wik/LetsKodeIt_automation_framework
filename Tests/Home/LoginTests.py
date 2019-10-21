@@ -16,7 +16,7 @@ class LoginTests(unittest.TestCase):
         driver.get(baseUrl)
 
         lp = LoginPage(driver)
-        lp.login("test@email.pl", "abcabc")
+        lp.login("test@email.com", "abcabc")
 
         userIcon = driver.find_element(By.XPATH, "//*[@id='navbar']/div/div/div/ul/li[4]/a/img")
         if userIcon is not None:
