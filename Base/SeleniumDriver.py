@@ -19,9 +19,9 @@ class SeleniumDriver():
             return By.XPATH
         if locatorType == "css":
             return By.CSS_SELECTOR
-        if locatorType == "classname":
+        if locatorType == "class":
             return By.CLASS_NAME
-        if locatorType == "linktext":
+        if locatorType == "link":
             return By.LINK_TEXT
         else:
             print("Locator type {} is not correct/supported".format(locatorType))
@@ -33,16 +33,33 @@ class SeleniumDriver():
             locatorType = locatorType.lower()
             byType = self.getByType(locatorType)
             element = self.driver.find_element(byType, locator)
-            print("Element found")
+            print("Element found with locator: {}, locator type: {}".format(locator, locatorType))
         except:
-            print("Element not found")
+            print("Element not found with locator: {}, locator type: {}".format(locator, locatorType))
         return element
 
-    # def ElementClick(self, locator, locatorType="id"):
-
-    def isElementPresent(self, locator, byType):
+    def elementClick(self, locator, locatorType="id"):
         try:
-            element = self.driver.find_element(byType, locator)
+            element = self.getElement(locator, locatorType)
+            element.click()
+            print("Clicked on the element with locator: {}, locator type: {}".format(locator, locatorType))
+        except:
+            print("Cannot click on the element with locator: {}, locator type: {}".format(locator, locatorType))
+            print_stack()
+
+    def sendKeys(self, data, locator, locatorType="id"):
+        try:
+            element = self.getElement(locator, locatorType)
+            element.send_keys(data)
+            element.click()
+            print("Sent data on the element with locator: {}, locator type: {}".format(locator, locatorType))
+        except:
+            print("Cannot send data on the element with locator: {}, locator type: {}".format(locator, locatorType))
+            print_stack()
+
+    def isElementPresent(self, locator, locatorType="id"):
+        try:
+            element = self.getElement(locator, locatorType)
             if element is not None:
                 print("Element found")
                 return True
